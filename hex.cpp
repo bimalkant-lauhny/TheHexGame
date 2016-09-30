@@ -14,7 +14,7 @@ struct hx
 
 void hx::print_board()
 {
-		cout<<"BOARD: \n\n";
+		//cout<<"BOARD: \n\n";
 		int count = 10;
 		for(int i=1;i<=n;i++)
 		{
@@ -48,7 +48,7 @@ void hx::print_board()
 						}
 						count ++;
 				}
-				cout << endl;
+				//cout << endl;
 		}
 		cout<<endl;
 }
@@ -76,6 +76,7 @@ pair<int, int> hx::move_gen()
                         p.second = j;
                     }
                     board[i][j] = 0; 
+                    //cout << "i j score " << i << " " << j << " " << temp_score << endl;
                 }
             }
         }
@@ -94,7 +95,27 @@ pair<int, int> hx::move_gen()
                         p.second = j;
                     }
                     board[i][j] = 0; 
+                    //cout << "i j score " << i << " " << j << " " << temp_score << endl;
                 }
+            }
+        }
+    }
+
+    if(max_score == 0)
+    {
+        while(1)
+        {
+            int x, y;
+            x = 1 + rand() % 21;
+            if(x<=11)
+                y = 1 + rand() % x;
+            else
+                y= 1 + rand() % (n-x+1);
+            if(board[x][y] == 0)
+            {
+                p.first = x;
+                p.second = y;
+                break;
             }
         }
     }
@@ -300,9 +321,11 @@ int main()
 {
 	// human - denotes human number  - 1 
 	// bot - denotes bot number - -1
+    srand(time(NULL));
 	hx hex;
     pair <int, int> move;
-	cout<<"Your turn(1 or 2): "; cin>>human;
+	//cout<<"Your turn(1 or 2): "; 
+	cin>>human;
 	if(human == 1) bot=-1;
 	else human = -1, bot=1;
 	// 1- blue , and -1 - red
@@ -320,13 +343,14 @@ int main()
 	{
 		if(turn == human)
 		{
-			cout<<"Human: Enter cell i,j= "; cin>>xi>>yj;
+			//cout<<"Human: Enter cell i,j= "; 
+			cin>>xi>>yj;
 		}
 		else
 		{   move = hex.move_gen();
             xi = move.first;
             yj = move.second;
-			cout<<"bot move = " <<xi<< " "<<yj<<endl;
+			cout<<xi<< " " << yj<<endl;
 		}
 		if(hex.board[xi][yj]!=0) continue;
 		if(xi<(n/2 +2) && yj>xi ) continue;
@@ -335,9 +359,9 @@ int main()
 		int winning=hex.win(hex.board,turn,0);
 		turn *= -1;
 		hex.print_board();
-		if(winning == human) printf("You won\n");
-		else if(winning== bot) printf("THE BOT WINS\n");
-		cout<<"winning= "<<winning<<endl;
+		//if(winning == human) printf("You won\n");
+		//else if(winning== bot) printf("THE BOT WINS\n");
+		//cout<<"winning= "<<winning<<endl;
 		if(winning !=0) break;
 	}
 	return 0;
