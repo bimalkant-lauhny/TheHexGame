@@ -14,26 +14,26 @@ struct hx
 
 void hx::print_board()
 {
+		cout<<"BOARD: \n\n";
 		int count = 10;
 		for(int i=1;i<=n;i++)
 		{
-				for(int j=1;j<=count;j++)
-						cout << " ";
-				if(i<12)
-				{
-		           for(int j=1;j<=i;j++)
-				   {
-						   if(board[i][j] == human)
-								   cout << "B ";
-						   else if(board[i][j] == bot)
-								   cout << "R ";
-						   else
-								   cout << "0 ";
-
-				   }
-				   count-=1;
-				   if(i==11)
-						   count = 1;
+			for(int j=1;j<=count;j++)
+					cout << " ";
+			if(i<12)
+			{
+		    	for(int j=1;j<=i;j++)
+			   	{
+					if(board[i][j] == human)
+						cout << "B ";
+					else if(board[i][j] == bot)
+						cout << "R ";
+					else
+						cout << "0 ";
+			   	 }
+				 count-=1;
+				 if(i==11)
+				   count = 1;
 				}
 				else
 				{
@@ -50,6 +50,7 @@ void hx::print_board()
 				}
 				cout << endl;
 		}
+		cout<<endl;
 }
 
 
@@ -61,6 +62,14 @@ int main()
 	cout<<"Your turn(1 or 2): "; cin>>human;
 	if(human == 1) bot=-1;
 	else human = -1, bot=1;
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			hex.board[i][j]=0;
+		}
+	}
+	
 	hex.print_board();
 	int turn = 1, xi, yj;
 	while(1)
