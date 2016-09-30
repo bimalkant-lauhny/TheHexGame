@@ -8,7 +8,7 @@ struct hx
 	int minimax(int board[][m],int turn, int depth);	// minimax(board,turn,depth)
 	int evaluatescore(int board[][m],int depth); // evalutescore(board,depth)
 	int win(int board[][m],int depth); // win(board)
-
+    pair<int, int> move_gen();
 	void print_board();
 };
 
@@ -53,12 +53,59 @@ void hx::print_board()
 		cout<<endl;
 }
 
+pair<int, int> hx::move_gen()
+{
+    int max_score = INT_MIN;
+    pair <int, int> p;
+    for(int i=1; i<=n; i++)
+    {
+        if(i<12)
+        {
+            for(int j=1; j<=i; j++)
+            {
+                if(board[i][j] == 0)
+                {
+                    board[i][j] = bot;
+                    int temp_score = minimax(board, bot*(-1), 0);
+                    if(temp_score > max_score)
+                    {
+                        max_score = temp_score;
+                        p.first = i;
+                        p.second = j;
+                    }
+                    board[i][j] = 0; 
+                }
+            }
+        }
+        else
+        {
+            for(int j=1; j<=n-i; j++)
+            {
+                if(board[i][j] == 0)
+                {
+                    board[i][j] = bot;
+                    int temp_score = minimax(board, bot*(-1), 0);
+                    if(temp_score > max_score)
+                    {
+                        max_score = temp_score;
+                        p.first = i;
+                        p.second = j;
+                    }
+                    board[i][j] = 0; 
+                }
+            }
+        }
+    }
+
+    return p;
+}
 
 int main()
 {
 	// human - denotes human number  - 1 
 	// bot - denotes bot number - -1
 	hx hex;
+    pair <int, int> move;
 	cout<<"Your turn(1 or 2): "; cin>>human;
 	if(human == 1) bot=-1;
 	else human = -1, bot=1;
@@ -79,7 +126,9 @@ int main()
 			cout<<"Human: Enter cell i,j= "; cin>>xi>>yj;
 		}
 		else
-		{		
+		{   move = hex.move_gen();
+            xi = move.first;
+            yj = move.second;
 			cout<<"BOT: Enter cell i,j= "; cin>>xi>>yj;
 		}
 		if(xi<(n/2 +1) && yj>xi ) continue;
