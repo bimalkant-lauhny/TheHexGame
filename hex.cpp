@@ -6,7 +6,7 @@ struct hx
 {
 	int board[n+1][m];
 	int minimax(int board[][m],int turn, int depth);	// minimax(board,turn,depth)
-	int evaluatescore(int board[][m],int depth); // evalutescore(board,depth)
+	int evaluatescore(int board[][m],int turn, int depth); // evalutescore(board,depth)
 	int win(int board[][m],int turn, int depth); // win(board)
     pair<int, int> move_gen();
 	void print_board();
@@ -111,7 +111,7 @@ int hx::minimax(int board[][m], int turn, int depth)
 		if(result!=0)
 		{
 				//return 0;
-				return evaluatescore(board, depth);
+				return evaluatescore(board, turn*-1, depth);
 		}
 		//cout<<"depth = "<<depth<<endl;
 		//if(depth > 2) return 0;
@@ -285,6 +285,16 @@ int hx::win(int board[][m], int turn, int depth)
 	else return 0; 
 }
 
+int hx::evaluatescore(int board[][m], int turn, int depth)
+{
+   int result = win(board, turn, depth);
+   if(result == human)
+       return depth - 100;
+   else if(result == bot)
+       return 100 - depth;
+   else
+       return 0;
+}
 
 int main()
 {
