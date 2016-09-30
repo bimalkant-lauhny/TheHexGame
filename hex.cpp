@@ -79,7 +79,7 @@ int main()
 			cout<<"Human: Enter cell i,j= "; cin>>xi>>yj;
 		}
 		else
-		{
+		{		
 			cout<<"BOT: Enter cell i,j= "; cin>>xi>>yj;
 		}
 		if(xi<(n/2 +1) && yj>xi ) continue;
@@ -87,6 +87,7 @@ int main()
 			
 		hex.board[xi][yj] = turn;
 		turn *= -1;
+		hex.print_board();
 	}
 	return 0;
 }
