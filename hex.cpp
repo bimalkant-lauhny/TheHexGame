@@ -100,6 +100,66 @@ pair<int, int> hx::move_gen()
     return p;
 }
 
+int hx::minimax(int board[][m], int turn, int depth)
+{
+		int result = win(board);
+		if(result!=0)
+		{
+				return evaluatescore(board, depth);
+		}
+		depth++;
+		if(depth > 5)
+				return 0;
+		int max_score = INT_MIN, min_score = INT_MAX;
+    for(int i=1; i<=n; i++)
+    {
+        if(i<12)
+        {
+            for(int j=1; j<=i; j++)
+            {
+                if(board[i][j] == 0)
+                {
+                    board[i][j] = turn;
+                    int temp_score = minimax(board, turn*(-1), 0);
+                    if(temp_score > max_score)
+                    {
+                        max_score = temp_score;
+                    }
+					if(temp_score < min_score)
+					{
+							min_score = temp_score;
+					}
+                    board[i][j] = 0; 
+                }
+            }
+        }
+        else
+        {
+            for(int j=1; j<=n-i; j++)
+            {
+                if(board[i][j] == 0)
+                {
+                    board[i][j] = turn;
+                    int temp_score = minimax(board, turn*(-1), 0);
+                    if(temp_score > max_score)
+                    {
+                        max_score = temp_score;
+                    }
+					if(temp_score < min_score)
+					{
+							min_score = temp_score;
+					}
+                    board[i][j] = 0; 
+                }
+            }
+        }
+    }
+	if(turn == human)
+			return min_score;
+	else
+			return max_score;
+}
+
 int main()
 {
 	// human - denotes human number  - 1 
