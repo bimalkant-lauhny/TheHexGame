@@ -1,13 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int n = 11;
+const int n = 22, m=12 ;
 int human, bot; 
 struct hx
 {
-	int board[n][n];
-	int minimax(int board[][n],int turn, int depth);	// minimax(board,turn,depth)
-	int evaluatescore(int board[][n],int depth); // evalutescore(board,depth)
-	int win(int board[][n],int depth); // win(board)
+	int board[n][m];
+	int minimax(int board[][m],int turn, int depth);	// minimax(board,turn,depth)
+	int evaluatescore(int board[][m],int depth); // evalutescore(board,depth)
+	int win(int board[][m],int depth); // win(board)
 };
 
 int main()
@@ -19,21 +19,22 @@ int main()
 	if(human == 1) bot=-1;
 	else human = -1, bot=1;
 	
-	int turn = 1, x, y;
+	int turn = 1, xi, yj;
 	while(1)
 	{
 		if(turn == human)
 		{
-			cout<<"Human: Enter cell i,j= "; cin>>x>>y;
-			hex.board[x][y] = turn;
-			turn = bot;
+			cout<<"Human: Enter cell i,j= "; cin>>xi>>yj;
 		}
 		else
 		{
-			cout<<"BOT: Enter cell i,j= "; cin>>x>>y;
-			hex.board[x][y] = turn; 
-			turn = human;
+			cout<<"BOT: Enter cell i,j= "; cin>>xi>>yj;
 		}
+		if(xi<(n/2 +1) && yj>i ) continue;
+		else if(xi >= (n/2+1) && yj>n-xi) continue;
+			
+		hex.board[x][y] = turn;
+		turn *= -1;
 	}
 	return 0;
 }
