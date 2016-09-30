@@ -10,6 +10,7 @@ struct hx
 	int win(int board[][m],int depth); // win(board)
 };
 
+
 int main()
 {
 	// human - denotes human number  - 1 
