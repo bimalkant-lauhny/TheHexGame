@@ -76,6 +76,7 @@ pair<int, int> hx::move_gen()
                         p.second = j;
                     }
                     board[i][j] = 0; 
+                    cout << "i j score " << i << " " << j << " " << temp_score << endl;
                 }
             }
         }
@@ -94,7 +95,27 @@ pair<int, int> hx::move_gen()
                         p.second = j;
                     }
                     board[i][j] = 0; 
+                    cout << "i j score " << i << " " << j << " " << temp_score << endl;
                 }
+            }
+        }
+    }
+
+    if(max_score == 0)
+    {
+        while(1)
+        {
+            int x, y;
+            x = 1 + rand() % 21;
+            if(x<=11)
+                y = 1 + rand() % x;
+            else
+                y= 1 + rand() % (n-x+1);
+            if(board[x][y] == 0)
+            {
+                p.first = x;
+                p.second = y;
+                break;
             }
         }
     }
@@ -300,6 +321,7 @@ int main()
 {
 	// human - denotes human number  - 1 
 	// bot - denotes bot number - -1
+    srand(time(NULL));
 	hx hex;
     pair <int, int> move;
 	cout<<"Your turn(1 or 2): "; cin>>human;
