@@ -1,8 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int n = 9, m=n/2+2;
+const int n = 11, m=n/2+2;
 int nmid=n/2+1;
 int human, bot; 
+int maxd=2;
 struct hx
 {
 	int board[n+1][m];
@@ -49,7 +50,7 @@ void hx::print_board()
 
 pair<int, int> hx::move_gen()
 {
-    int max_score = INT_MIN;
+    int max_score = INT_MIN, minscore = INT_MAX;
     pair <int, int> p;
     for(int i=1; i<=n; i++)
     {
@@ -62,15 +63,19 @@ pair<int, int> hx::move_gen()
                 if(board[i][j] == 0)
                 {
                     board[i][j] = bot;
-                    int temp_score = minimax(board, bot*(-1), 1);
+                    int temp_score = minimax(board, bot*(-1), 0);
                     if(temp_score > max_score)
                     {
                         max_score = temp_score;
                         p.first = i;
                         p.second = j;
                     }
+                    if(temp_score<minscore)
+                    {
+                    	minscore = temp_score;
+                    }
                     board[i][j] = 0; 
-                   // cout << "i j score " << i << " " << j << " " << temp_score << endl;
+                    cout << "i j score " << i << " " << j << " " << temp_score << endl;
                 }
             }
         }
@@ -81,22 +86,27 @@ pair<int, int> hx::move_gen()
                 if(board[i][j] == 0)
                 {
                     board[i][j] = bot;
-                    int temp_score = minimax(board, bot*(-1), 1);
+                    int temp_score = minimax(board, bot*(-1), 0);
                     if(temp_score > max_score)
                     {
                         max_score = temp_score;
                         p.first = i;
                         p.second = j;
                     }
+                    if(temp_score<minscore)
+                    {
+                    	minscore = temp_score;
+                    }
                     board[i][j] = 0; 
-                    //cout << "i j score " << i << " " << j << " " << temp_score << endl;
+                    cout << "i j score " << i << " " << j << " " << temp_score << endl;
                 }
             }
         }
     }
 
-    /*if(max_score == 0)
+    if(max_score == minscore)
     {
+    	cout<<"random\n";
         while(1)
         {
             int x, y;
@@ -112,13 +122,13 @@ pair<int, int> hx::move_gen()
                 break;
             }
         }
-    }*/
+    }
     return p;
 }
 
 int hx::minimax(int board[][m], int turn, int depth)
 {	
-	if(depth>5) return 0;
+	
 	//cout<<"in minimax()"<<endl;
 	int result = win(board,turn*-1,depth);
 	//cout<< "wineval "<<result<<endl; 
@@ -127,6 +137,7 @@ int hx::minimax(int board[][m], int turn, int depth)
 			//return 0;
 			return evaluatescore(board, turn*-1, depth);
 	}
+	if(depth>maxd) return depth;
 	//cout<<"depth = "<<depth<<endl;
 	//if(depth > 2) return 0;
 			
@@ -379,8 +390,9 @@ int main()
     pair <int, int> move;
 	cout<<"Your turn(1 or 2): "; 
 	cin>>human;
+	int turn=1;
 	if(human == 1) bot=-1;
-	else human = -1, bot=1;
+	else human = 1, bot=-1,turn = -1;
 	// 1- blue , and -1 - red
 	for(int i=0;i<=n;i++)
 	{
@@ -391,7 +403,7 @@ int main()
 	}
 	
 	hex.print_board();
-	int turn = 1, xi, yj;
+	int xi, yj;
 	while(1)
 	{
 		if(turn == human)
@@ -401,6 +413,7 @@ int main()
 		}
 		else
 		{   move = hex.move_gen();
+			//maxd++;
             xi = move.first;
             yj = move.second;
 			cout<<xi<< " " << yj<<endl;
