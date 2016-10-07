@@ -1,5 +1,6 @@
 #ifndef BFS_HPP
 #define BFS_HPP
+
 int bfs(int board[][m],pair<int,int> s,vector< pair<int,int> > v2)
 {
 	queue< pair<int,int> > q;
@@ -22,19 +23,7 @@ int bfs(int board[][m],pair<int,int> s,vector< pair<int,int> > v2)
 			}
 		}
 		if(present == 1) break;
-		
-		//1 i-1,j-1
-		if(i-1>0 && j-1>0 && board[i-1][j-1]== board[s.first][s.second] && visited[i-1][j-1]==0)
-		{
-			q.push(make_pair(i-1,j-1));
-			visited[i-1][j-1]=1;
-		}
-		//2 i-1,j
-		if(i-1>0 && j>0 && board[i-1][j]== board[s.first][s.second] && visited[i-1][j]==0)
-		{
-			q.push(make_pair(i-1,j));
-			visited[i-1][j]=1;
-		}
+
 		//3 i,j-1
 		if(i>0 && j-1>0 && board[i][j-1]== board[s.first][s.second] && visited[i][j-1]==0)
 		{
@@ -47,20 +36,96 @@ int bfs(int board[][m],pair<int,int> s,vector< pair<int,int> > v2)
 			q.push(make_pair(i,j+1));
 			visited[i][j+1]=1;
 		}
-		//5 i+1,j
-		if(i+1<=n && j>0 && board[i+1][j]== board[s.first][s.second] && visited[i+1][j]==0)
+
+		if(i<nmid)
 		{
-			q.push(make_pair(i+1,j));
-			visited[i+1][j]=1;
-		}
-		//6 i+1, j+1
-		if(i+1<=n && j+1<m && board[i+1][j+1]== board[s.first][s.second] && visited[i+1][j+1]==0)
+			//1 i-1,j-1
+			if(i-1>0 && j-1>0 && board[i-1][j-1]== board[s.first][s.second] && visited[i-1][j-1]==0)
+			{
+				q.push(make_pair(i-1,j-1));
+				visited[i-1][j-1]=1;
+			}
+			//2 i-1,j
+			if(i-1>0 && j>0 && board[i-1][j]== board[s.first][s.second] && visited[i-1][j]==0)
+			{
+				q.push(make_pair(i-1,j));
+				visited[i-1][j]=1;
+			}
+			
+			//5 i+1,j
+			if(i+1<=n && j>0 && board[i+1][j]== board[s.first][s.second] && visited[i+1][j]==0)
+			{
+				q.push(make_pair(i+1,j));
+				visited[i+1][j]=1;
+			}
+			//6 i+1, j+1
+			if(i+1<=n && j+1<m && board[i+1][j+1]== board[s.first][s.second] && visited[i+1][j+1]==0)
+			{
+				q.push(make_pair(i+1,j+1));
+				visited[i+1][j+1]=1;
+			}
+		}	
+		else if(i==nmid)
 		{
-			q.push(make_pair(i+1,j+1));
-			visited[i+1][j+1]=1;
-		}
+			//1 i-1,j-1
+			if(i-1>0 && j-1>0 && board[i-1][j-1]== board[s.first][s.second] && visited[i-1][j-1]==0)
+			{
+				q.push(make_pair(i-1,j-1));
+				visited[i-1][j-1]=1;
+			}
+			//2 i-1,j
+			if(i-1>0 && j>0 && board[i-1][j]== board[s.first][s.second] && visited[i-1][j]==0)
+			{
+				q.push(make_pair(i-1,j));
+				visited[i-1][j]=1;
+			}
+			
+			//5 i+1,j
+			if(i+1<=n && j>0 && board[i+1][j]== board[s.first][s.second] && visited[i+1][j]==0)
+			{
+				q.push(make_pair(i+1,j));
+				visited[i+1][j]=1;
+			}
+			//6 i+1, j-1
+			if(i+1<=n && j-1>0 && board[i+1][j-1]== board[s.first][s.second] && visited[i+1][j-1]==0)
+			{
+				q.push(make_pair(i+1,j-1));
+				visited[i+1][j-1]=1;
+			}
+		}	
+		else 
+		{
+			//1 i-1,j+1
+			if(i-1>0 && j+1<m && board[i-1][j+1]== board[s.first][s.second] && visited[i-1][j+1]==0)
+			{
+				q.push(make_pair(i-1,j+1));
+				visited[i-1][j+1]=1;
+			}
+			//2 i-1,j
+			if(i-1>0 && j>0 && board[i-1][j]== board[s.first][s.second] && visited[i-1][j]==0)
+			{
+				q.push(make_pair(i-1,j));
+				visited[i-1][j]=1;
+			}
+			
+			//5 i+1,j
+			if(i+1<=n && j>0 && board[i+1][j]== board[s.first][s.second] && visited[i+1][j]==0)
+			{
+				q.push(make_pair(i+1,j));
+				visited[i+1][j]=1;
+			}
+			//6 i+1, j-1
+			if(i+1<=n && j-1>0 && board[i+1][j-1]== board[s.first][s.second] && visited[i+1][j-1]==0)
+			{
+				q.push(make_pair(i+1,j-1));
+				visited[i+1][j-1]=1;
+			}
+		}	
 	} 
 	return present;
 }
+
+
+
 
 #endif

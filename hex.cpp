@@ -44,7 +44,7 @@ int main()
 		{   move = hex.move_gen();
             xi = move.first;
             yj = move.second;
-			cout << xi << " " << yj << endl;
+			cout << "Bot chose: " << xi << " " << yj << endl;
 		}
 		
 		if((hex.board[xi][yj] != 0))

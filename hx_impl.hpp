@@ -4,6 +4,8 @@
 // In case not included yet
 #include "hx.hpp"
 #include "bfs.hpp"
+
+
 void hx::print_board()
 {
 	cout<<"BOARD: \n\n";
@@ -38,14 +40,16 @@ void hx::print_board()
 	cout<<endl;
 }
 
+
+
 pair<int, int> hx::move_gen()
 {
-    int max_score = INT_MIN;
+    int max_score = INT_MIN, minscore = INT_MAX;
     pair <int, int> p;
     for(int i=1; i<=n; i++)
     {
     	//cout<< "in hexgeni= "<<i<<endl;
-        if(i<12)
+        if(i<=nmid)
         {
             for(int j=1; j<=i; j++)
             {
@@ -53,12 +57,16 @@ pair<int, int> hx::move_gen()
                 if(board[i][j] == 0)
                 {
                     board[i][j] = bot;
-                    int temp_score = minimax(board, bot*(-1), 1);
+                    int temp_score = minimax(board, bot*(-1), 0);
                     if(temp_score > max_score)
                     {
                         max_score = temp_score;
                         p.first = i;
                         p.second = j;
+                    }
+                    if(temp_score<minscore)
+                    {
+                    	minscore = temp_score;
                     }
                     board[i][j] = 0; 
                     //cout << "i j score " << i << " " << j << " " << temp_score << endl;
@@ -72,12 +80,16 @@ pair<int, int> hx::move_gen()
                 if(board[i][j] == 0)
                 {
                     board[i][j] = bot;
-                    int temp_score = minimax(board, bot*(-1), 1);
+                    int temp_score = minimax(board, bot*(-1), 0);
                     if(temp_score > max_score)
                     {
                         max_score = temp_score;
                         p.first = i;
                         p.second = j;
+                    }
+                    if(temp_score<minscore)
+                    {
+                    	minscore = temp_score;
                     }
                     board[i][j] = 0; 
                     //cout << "i j score " << i << " " << j << " " << temp_score << endl;
@@ -86,13 +98,14 @@ pair<int, int> hx::move_gen()
         }
     }
 
-    if(max_score == 0)
+    if(max_score == minscore)
     {
+        //cout<<"random\n";
         while(1)
         {
             int x, y;
-            x = 1 + rand() % 21;
-            if(x<=11)
+            x = 1 + rand() % n;
+            if(x<=nmid)
                 y = 1 + rand() % x;
             else
                 y= 1 + rand() % (n-x+1);
@@ -104,28 +117,31 @@ pair<int, int> hx::move_gen()
             }
         }
     }
-
     return p;
 }
 
+
+
+
 int hx::minimax(int board[][m], int turn, int depth)
 {	
-		if(depth>2) return 0;
-		//cout<<"in minimax()"<<endl;
-		int result = win(board,turn*-1,depth);
-		//cout<< "wineval "<<result<<endl; 
-		if(result!=0)
-		{
-				//return 0;
-				return evaluatescore(board, turn*-1, depth);
-		}
-		//cout<<"depth = "<<depth<<endl;
-		//if(depth > 2) return 0;
-				
-		int max_score = INT_MIN, min_score = INT_MAX;
+	
+	//cout<<"in minimax()"<<endl;
+	int result = win(board,turn*-1,depth);
+	//cout<< "wineval "<<result<<endl; 
+	if(result!=0)
+	{
+			//return 0;
+			return evaluatescore(board, turn*-1, depth);
+	}
+	if(depth>maxd) return depth;
+	//cout<<"depth = "<<depth<<endl;
+	//if(depth > 2) return 0;
+			
+	int max_score = INT_MIN, min_score = INT_MAX;
     for(int i=1; i<=n; i++)
     {
-        if(i<12)
+        if(i<=nmid)
         {
             for(int j=1; j<=i; j++)
             {
@@ -159,7 +175,7 @@ int hx::minimax(int board[][m], int turn, int depth)
                     }
 					if(temp_score < min_score)
 					{
-							min_score = temp_score;
+						min_score = temp_score;
 					}
                     board[i][j] = 0; 
                 }
@@ -167,10 +183,12 @@ int hx::minimax(int board[][m], int turn, int depth)
         }
     }
 	if(turn == human)
-			return min_score;
+		return min_score;
 	else
-			return max_score;
+		return max_score;
 }
+
+
 
 int hx::win(int board[][m], int turn, int depth)
 {
@@ -179,11 +197,11 @@ int hx::win(int board[][m], int turn, int depth)
 	int winflag=0;
 	if(turn == 1) //blue winning condition
 	{
-		for(int i=1;i<12;i++)
+		for(int i=1;i<=nmid;i++)
 		{
 			v1.push_back(make_pair(i,1));
 		}
-		for(int i=11;i<=n;i++)
+		for(int i=nmid;i<=n;i++)
 		{
 			v2.push_back(make_pair(i,n-i+1));
 		}
@@ -203,11 +221,11 @@ int hx::win(int board[][m], int turn, int depth)
 	}
 	else //red wining condition 
 	{
-		for(int i=1;i<12;i++)
+		for(int i=1;i<=nmid;i++)
 		{
 			v1.push_back(make_pair(i,i));
 		}
-		for(int i=11;i<=n;i++)
+		for(int i=nmid;i<=n;i++)
 		{
 			v2.push_back(make_pair(i,1));
 		}
@@ -227,6 +245,7 @@ int hx::win(int board[][m], int turn, int depth)
 	if(winflag==1) return turn;
 	else return 0; 
 }
+
 
 int hx::evaluatescore(int board[][m], int turn, int depth)
 {
