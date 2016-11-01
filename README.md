@@ -3,10 +3,8 @@ It is a Bot that plays the HEX - GAME.
 
 ### To Run the Present Game
 		
-    <ol>
-	<li>g++ hex.cpp</li>
-	<li>./a.out</li>
-	</ol>
+	g++ hex.cpp<br/>
+	./a.out<br/>
 
 
 Used minimax algorithm to generate the moves.
