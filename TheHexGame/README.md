@@ -1,0 +1,2 @@
+# TheHexGame
+Hex Bot

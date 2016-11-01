@@ -59,7 +59,9 @@ def main():
     pygame.display.set_caption("HEX")
 
     background = pygame.Surface(screen.get_size())
+    another_screen = pygame.Surface((350, 700))
     background = background.convert()
+    another_screen.fill((250,250,250))
     background.fill((250,250, 250))
     screen.blit(background, (0, 0))
     clock = pygame.time.Clock()
@@ -70,29 +72,46 @@ def main():
     listPoints.append(points[0])
     generPoint = points[2]
     secondPoint = 3
+    goi= [points[0], points[1], points[2]]
     count = 2
     side = 16
     theta = 30/57.29577951308232;
     distance = 2*side*cos(theta)
     line1x = (320, 50)
+    oo = [points[0], points[5], points[4]]
     for i in range(10):
         for j in range(count):
             listPoints.append((generPoint[0] + j*distance, generPoint[1]))
         a = Hexagon(listPoints[-count][0], listPoints[-count][1]).returnPoints()
+        b = Hexagon(listPoints[-1][0], listPoints[-1][1]).returnPoints()
+        he = a[1]
+        oo.extend([b[5], b[4]])
         generPoint = a[2]
+        goi.append(he)
+        goi.append(generPoint)
+        x = a[3]
         secondPoint = a[4]
         count+=1;
-    line1y = (generPoint[0]-20, generPoint[1])
-    line2x = (listPoints[-1][0] + 25, listPoints[-1][1])
+    del(goi[-1])
     count-=2
     generPoint = secondPoint
+    p = [x]
+    cd = []
     for i in range(10):
         for j in range(count):
             listPoints.append((generPoint[0] + j*distance, generPoint[1]))
+        b = Hexagon(listPoints[-1][0], listPoints[-1][1]).returnPoints()
         a = Hexagon(listPoints[-count][0], listPoints[-count][1]).returnPoints()
         generPoint = a[4]
+        ut = a[3]
+        cd.extend([b[5], b[4]])
+        p.extend([a[1], a[2]])
         count-=1
-    line2y = (generPoint[0] + 25, generPoint[1])
+    del(goi[-1])
+    del(oo[-1])
+    del(oo[-1])
+    p.append(ut)
+    cd.append(ut)
     yo = []
     for point in listPoints:
         yo.append(Hexagon(point[0], point[1]))
@@ -107,8 +126,10 @@ def main():
         if(click):
             for hexa in yo:
                 hexa.update(x, y, click)
-        pygame.draw.line(screen, blue, line1x, line1y, 10)
-        pygame.draw.line(screen, blue, line2x, line2y, 10)
+        pygame.draw.lines(screen, red, False, goi, 6)
+        pygame.draw.lines(screen, blue, False, oo, 6)
+        pygame.draw.lines(screen, blue, False, p, 6)
+        pygame.draw.lines(screen, red, False, cd, 6)
         for hexagon in yo:
             a = hexagon.returnPoints()
             b = hexagon.returnColor()
@@ -118,6 +139,7 @@ def main():
             else:
                 pygame.draw.polygon(screen, b, a, 3)
             pygame.display.update()
-        clock.tick(60)
+        #screen.blit(another_screen, (154,0))
+        clock.tick(5)
 main()
 
