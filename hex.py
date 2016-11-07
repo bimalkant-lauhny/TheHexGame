@@ -91,7 +91,7 @@ def main():
     screen.blit(background, (0, 0))
     clock = pygame.time.Clock()
     gameon = True
-    a = Hexagon(350, 50)
+    a = Hexagon(350, 150)
     points = a.returnPoints()
     listPoints = []
     listPoints.append(points[0])
@@ -166,10 +166,10 @@ def main():
                 yo[i].color = red
                 yo[i].updated = True
 
-        pygame.draw.lines(screen, red, False, goi, 6)
-        pygame.draw.lines(screen, blue, False, oo, 6)
-        pygame.draw.lines(screen, blue, False, p, 6)
-        pygame.draw.lines(screen, red, False, cd, 6)
+        pygame.draw.lines(screen, blue, False, goi, 6)
+        pygame.draw.lines(screen, red, False, oo, 6)
+        pygame.draw.lines(screen, red, False, p, 6)
+        pygame.draw.lines(screen, blue, False, cd, 6)
         for hexagon in yo:
             a = hexagon.returnPoints()
             b = hexagon.returnColor()

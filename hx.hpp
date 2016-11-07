@@ -4,7 +4,7 @@
 const int n = 11, m=n/2+2;
 int nmid=n/2+1;
 int human, bot; 
-int maxd=4;
+int maxd=1;
 struct hx
 {
 	int board[n+1][m];
