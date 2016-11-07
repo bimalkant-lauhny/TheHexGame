@@ -15,6 +15,25 @@ white = (250, 250, 250)
 red = (250, 0, 0)
 blue = (0, 0, 255)
 
+def returnnr(index):
+    if(index <= 21):
+        for i in range(7):
+            if(i*(i+1)/2 >= index):
+                x = i-1
+                y = index - x*(x+1)/2
+                return x+1, y
+    else:
+        myval = index - 21
+        ty = 5
+        cou = 1
+        while(myval - ty > 0):
+            myval = myval - ty
+            ty -= 1
+            cou += 1
+        return 6+cou, myval
+            
+
+
 class Hexagon(object):
     '''Draw a hexagon in the canvas given its start point. That is the upper point in the hexagon'''
     def __init__(self, x, y):
@@ -26,6 +45,7 @@ class Hexagon(object):
         self.updated = False
         theta = 30/57.29577951308232;
         self.y = y
+        self.index = 0
         self.rect = pygame.Rect((self.x - self.side*cos(theta), self.y + self.side*sin(theta)), (self.side, 2*cos(theta)*self.side))
     def returnPoints(self):
         points = []
@@ -44,6 +64,11 @@ class Hexagon(object):
             if(p):
                 self.color = blue
                 self.updated = True
+                myx, myy = returnnr(self.index)
+                with open('guiout','w') as fp:
+                    fp.write(str(myx))
+                    fp.write('\n')
+                    fp.write(str(int(myy)))
         return
     def returnColor(self):
         return self.color
@@ -79,7 +104,7 @@ def main():
     distance = 2*side*cos(theta)
     line1x = (320, 50)
     oo = [points[0], points[5], points[4]]
-    for i in range(10):
+    for i in range(5):
         for j in range(count):
             listPoints.append((generPoint[0] + j*distance, generPoint[1]))
         a = Hexagon(listPoints[-count][0], listPoints[-count][1]).returnPoints()
@@ -97,7 +122,7 @@ def main():
     generPoint = secondPoint
     p = [x]
     cd = []
-    for i in range(10):
+    for i in range(5):
         for j in range(count):
             listPoints.append((generPoint[0] + j*distance, generPoint[1]))
         b = Hexagon(listPoints[-1][0], listPoints[-1][1]).returnPoints()
@@ -113,8 +138,12 @@ def main():
     p.append(ut)
     cd.append(ut)
     yo = []
+    co = 1
     for point in listPoints:
-        yo.append(Hexagon(point[0], point[1]))
+        a = Hexagon(point[0], point[1])
+        a.index = co
+        co +=1
+        yo.append(a)
 
     while(gameon):
         for event in pygame.event.get():
@@ -126,6 +155,17 @@ def main():
         if(click):
             for hexa in yo:
                 hexa.update(x, y, click)
+        boardNow = ''
+        for line in open("boardOutput").read():
+            boardNow = boardNow + line.strip()
+        for i in range(len(boardNow)):
+            if(boardNow[i] == 'B'):
+                yo[i].color = blue
+                yo[i].updated = True
+            elif(boardNow[i] == 'R'):
+                yo[i].color = red
+                yo[i].updated = True
+
         pygame.draw.lines(screen, red, False, goi, 6)
         pygame.draw.lines(screen, blue, False, oo, 6)
         pygame.draw.lines(screen, blue, False, p, 6)

@@ -4,11 +4,12 @@
 // In case not included yet
 #include "hx.hpp"
 #include "bfs.hpp"
+#include <fstream>
 
 
 void hx::print_board()
 {
-	cout<<"BOARD: \n\n";
+	//cout<<"BOARD: \n\n";
 	int count = nmid-1;
 	for(int i=1;i<=n;i++)
 	{
@@ -37,10 +38,42 @@ void hx::print_board()
 		}
 		cout << endl;
 	}
-	cout<<endl;
+	//cout<<endl;
 }
 
-
+void hx::print_to_file()
+{
+    ofstream myfile;
+    myfile.open("boardOutput");
+    int count = nmid-1;
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=count;j++)
+				myfile << " ";
+		if(i<=nmid)
+		{
+	    	for(int j=1;j<=i;j++)
+		   	{
+				if(board[i][j] == 1) myfile << "B ";
+				else if(board[i][j] == -1) myfile << "R ";
+				else myfile << "0 ";
+		   	}
+			count-=1;
+			if(i==nmid) count = 1;
+		}
+		else
+		{
+			for(int j=1;j<=(n-i)+1;j++)
+			{
+				if(board[i][j] == 1) myfile << "B ";
+				else if(board[i][j] == -1) myfile << "R ";
+				else myfile << "0 ";
+			}
+			count ++;
+		}
+		myfile << endl;
+	}
+}
 
 pair<int, int> hx::move_gen()
 {

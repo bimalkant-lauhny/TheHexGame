@@ -124,8 +124,4 @@ int bfs(int board[][m],pair<int,int> s,vector< pair<int,int> > v2)
 	} 
 	return present;
 }
-
-
-
-
 #endif

@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "hx.hpp"
-
+#include <fstream>
 
 int main()
 {
@@ -11,8 +11,9 @@ int main()
 	// initialize hex object
 	hx hex;
     pair <int, int> move;
-	cout<<"Your turn (1 or 2): "; 
-	cin >> human;
+	//cout<<"Your turn (1 or 2): "; 
+	//cin >> human;
+    human = 1;
 
 	// 1- blue , and -1 - red
 	if(human == 1)
@@ -37,8 +38,9 @@ int main()
 	{
 		if(turn == human)
 		{
-			cout << "Human: Enter cell i,j= "; 
-			cin >> xi >> yj;
+			ifstream readfile;
+            readfile.open("guiout");
+			readfile >> xi >> yj;
 		}
 		else
 		{   move = hex.move_gen();
@@ -49,17 +51,18 @@ int main()
 		
 		if((hex.board[xi][yj] != 0))
 		{
-		    cout << "Position Already Occupied\n";
+			//cout << "Position Already Occupied\n";
 		    continue;
 		}
 		if(xi < (n/2 +2) && yj > xi) 
 		{
-		    cout << "Invalid Position\n";
+            cout << xi << yj << endl;
+			//cout << "Invalid Position\n";
 	    	continue;
 		}
 		else if(xi >= (n/2+2) && yj > n-xi+1) 
 		{
-		    cout << "Invalid Position\n";
+			//cout << "Invalid Position\n";
 		    continue;	
 		}
 
@@ -67,9 +70,10 @@ int main()
 		int winning = hex.win(hex.board,turn,0);
 		turn *= -1;
 		hex.print_board();
-		//if(winning == human) printf("You won\n");
-		//else if(winning== bot) printf("THE BOT WINS\n");
-		//cout<<"winning= "<<winning<<endl;
+        hex.print_to_file();
+        if(winning == human) printf("You won\n");
+        else if(winning== bot) printf("THE BOT WINS\n");
+        cout<<"winning= "<<winning<<endl;
 		if(winning !=0) 
 		    break;
 	}

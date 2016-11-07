@@ -4,7 +4,7 @@
 const int n = 11, m=n/2+2;
 int nmid=n/2+1;
 int human, bot; 
-int maxd=2;
+int maxd=4;
 struct hx
 {
 	int board[n+1][m];
@@ -13,6 +13,7 @@ struct hx
 	int win(int board[][m],int turn, int depth); // win(board)
     pair<int, int> move_gen();
 	void print_board();
+    void print_to_file();
 };
 
 #include "hx_impl.hpp"
