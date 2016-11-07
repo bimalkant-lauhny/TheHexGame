@@ -3,13 +3,13 @@ It is a Bot that plays the HEX - GAME.
 
 ### To Run the Present Game
 
-* In a terminal session
+In a terminal session
     chmod 777 m
     ./m
 	g++ hex.cpp
 	./a.out
 
-* In another terminal
+In another terminal
     python hex.py
 
 
